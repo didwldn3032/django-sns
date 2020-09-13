@@ -1,0 +1,28 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %} 
+{% if user.is_authenticated %}
+    <div class="container"> 
+    <center><br><br><h1>내가 쓴 글 목록<br><br></h1></center>
+       
+    <div class="row">        
+    {% for post in posts %}        
+        <div class="col-md-4 col-12">            
+            <div class="card" style="width: 18rem; margin-top: 20px;">          
+                <div class="card-body">              
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p>조회수 : {{ post.view_count }}</p>
+                    <a href="{% url 'posts:show' post.pk %}" class="btn btn-primary">상 세보기</a>              
+                </div>            
+            </div>        
+        </div>        
+        {% endfor %}    
+    </div>
+    {% else %}
+    <h3>로그인 후 이용이 가능합니다.</h3>
+    <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+    <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a> 
+    {% endif %}
+    
+</div> 
+{% endblock %}

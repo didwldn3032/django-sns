@@ -1,8 +1,10 @@
 from django.urls import path
 from .views import *
+from users.views import *
 
 app_name = "posts"
 urlpatterns = [
+    path('create/', create, name='create'),
     path('create/', create, name='create'),
     path('update/<int:id>/', update, name='update'),
     path('delete/<int:id>/', delete, name="delete"),
@@ -13,5 +15,4 @@ urlpatterns = [
 
     #likes
     path('<int:post_id>/post_like/', post_like, name="post_like"),
-    path('like_list/', like_list, name="like_list"),
 ]

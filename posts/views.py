@@ -3,6 +3,7 @@ from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import pdb
+from users.models import *
 
 # Create your views here.
 @login_required
