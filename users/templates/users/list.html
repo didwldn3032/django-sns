@@ -1,2 +1,28 @@
-<h1>내가 팔로우한 목록</h1>
-{{ follwings_user.username }}
+
+
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %} 
+{% if user.is_authenticated %}
+    <div class="container"> 
+    <center><br><br><h1>내가 팔로우한 목록<br><br></h1></center>
+       
+    <div class="row">        
+    {% for following in followings %}        
+        <div class="col-md-4 col-12">            
+            <div class="card" style="width: 18rem; margin-top: 20px;">          
+                <div class="card-body">              
+                    {{ follwings_user.username }}              
+                </div>            
+            </div>        
+        </div>        
+        {% endfor %}    
+    </div>
+    {% else %}
+    <h3>로그인 후 이용이 가능합니다.</h3>
+    <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+    <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a> 
+    {% endif %}
+    
+</div> 
+{% endblock %}

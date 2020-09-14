@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import *
 
+
 @login_required
 def follow_toggle(request, user_id):
     user = request.user
@@ -19,16 +20,17 @@ def follow_toggle(request, user_id):
 
 @login_required
 def follow_list(request):
-    followings = request.user.profile.followings.all()
+    followings = Profile.objects.filter(user=request.user)
     return render(request, 'users/list.html', {'followings':followings})
 
 @login_required
 def posts_list(request):
-    posts = Post.objects.all()
-    posts_list = posts.filter(user=request.user)
+    posts_list = Post.objects.filter(user=request.user)
     return render(request, 'users/list3.html', {'posts_list':posts_list})
 
+@login_required
 def mypage(request):
     return render(request, 'users/mypage.html')
+
 
 # Create your views here.
