@@ -6,13 +6,12 @@
     <center><br><br><h1>내가 쓴 글 목록<br><br></h1></center>
        
     <div class="row">        
-    {% for post in posts %}        
+    {% for post in posts_list %}        
         <div class="col-md-4 col-12">            
             <div class="card" style="width: 18rem; margin-top: 20px;">          
                 <div class="card-body">              
                     <h5 class="card-title">{{ post.title }}</h5>
-                    <p>조회수 : {{ post.view_count }}</p>
-                    <a href="{% url 'posts:show' post.pk %}" class="btn btn-primary">상 세보기</a>              
+                    <p>조회수 : {{ post.view_count }}</p>             
                 </div>            
             </div>        
         </div>        
