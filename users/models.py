@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(verbose_name="Image of User", upload_to="image/", default="images/default.jpg")
     info = models.TextField(null=True, blank=True)
-    followings = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+    followings = models.ManyToManyField("self", related_name="followers", symmetrical=False)\
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
