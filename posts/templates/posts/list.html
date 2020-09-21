@@ -1,1 +1,12 @@
-{{ follwings_user.username }}
+{% extends 'base.html' %}
+{% block content %}
+  
+  
+{% comment %}  
+  보여?  ㅇㅋㅇㅋ
+  우선 우리가 views.py에서 넘겨주는게 user랑 follow_list 두 개잖아
+  먼저 follow_list에 뭐가 있는지 보면
+{% endcomment %}
+{% endblock %}
+{% comment %} 아 잠만  {% endcomment %}
+{% comment %} 저기서 에러나는 이유가 views.py의 profile에서 user랑 post_user의 값을 넘겨주지 않았음 {% endcomment %}

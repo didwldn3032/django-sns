@@ -18,23 +18,47 @@ def follow_toggle(request, user_id):
 
 
 
-@login_required
-def follow_list(request):
-    followings = Profile.objects.all().first()
-    following_list = user.followings.all()
-    return render(request, 'users/list.html', {'followings':followings})
+
+# 보여? list.html 로 ㄲ
+# 넵
+# 이름을 그냥 user라고 할게
+# 그리고 지금 팔로잉 리스트랑 팔로워 리스트가 동일한 경로로 지정되어 있어서
+# 팔로잉한 유저 기준으로 짤게
+
 
 @login_required
-def posts_list(request):
-    posts_list = Post.objects.filter(user=request.user)
-    return render(request, 'users/list3.html', {'posts_list':posts_list})
+def posts_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    posts_list = Post.objects.filter(user=user)
+    return render(request, 'users/list3.html', {'user': user, 'posts_list':posts_list})
 
 
 @login_required
 def profile(request, user_id):
     user = request.user
     post_user = get_object_or_404(User, pk=user_id)
-    return render(request, 'users/profile.html')
+    return render(request, 'users/profile.html', {'user': user, 'post_user': post_user})
+
+
+@login_required
+def following(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    follow_list = user.profile.followings.all()
+    return render(request, 'users/list2.html', {'user': user, 'follow_list':follow_list})
+
+# 우선 에러가 난 이유 1 -> following 들어갈 때 넘겨주는 id 값이 없다.
+# post = get_objet_or_404 ... 이거 말했던거는
+# post를 작성한 유저의 프로필 페이지를 확인할 때 필요한거고
+# 저 아이디를 넘겨주기 위해서는 profile에서 정의한 post_user의 아이디 값을 넘겨주면 됨. profile.html으로 넘어와
+
+
+@login_required
+def follower(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    follower_list = user.profile.followers.all()
+    return render(request, 'users/list4.html', {'user': user, 'follower_list':follower_list})
+
+
 
 # 그 제 아이디 기준으로 마이페이지 하는거는 가능한데 글 쓴 사람의 아이디를 받아서 마이페이지를 가는게
 # 어렵더라고요 id를 어떻게 받아와야할지 모르겠어서 두개로 나눠서 내꺼 가는거랑 글 쓴 사람 가는거로 하려 했어요

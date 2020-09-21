@@ -6,23 +6,57 @@
 {% if user.is_authenticated %}
     <div class="container"> 
     <center><br><br><h1>내가 팔로우한 목록<br><br></h1></center>
-       
+{% comment %} 
+우선 하나의 액션에서는 하나의 html로 떨어지게 하는게 좋고
+현재 views.py 보면 list.html로 떨어지는 액션이 3개가 있는데 각자의 액션이 어떤 역할을 하는지는 모르겠지만 각각 따로 html 파일 만들어서 연결 시켜주는게 좋아
+지금 여기는 followings 액션에서 넘어오는거 기준으로 보면
+우선 postf값이 없으니까 지워주고
+
+방금 user = postf.user 지운 이유는 아까 
+profile 액션에서 post_user 아이디를 넘긴거를 
+following 액션에서 user_id로 받아서 user 변수에 담아줬잖아 어어 맞아
+followings가 following인가요 그 user변수가 아니라 post_user에 담은거 아닌가요?? user는 요청한 유저 아니에요??
+profile 페이지에서만 보면 user = request.user, post_user = get_object_or_404(User, pk=user_id)이거인데
+우리가 profile.html 에서
+
+<a href="{% url 'users:following' post_user.id %}">내가 팔로우한 목록</a>
+<a href="{% url 'users:follow_list' post_user.id %}">나를 팔로우한 목록</a>
+<a href="{% url 'users:posts_list' post_user.id %}">내가 쓴 글 목록</a>
+
+이런식으로 post_user.id를 넘겨주고   ---->   urls.py에서 following/<int:user_id>/ 로 받아옴   ---->   여기서 user_id = post_user.id 가 됨.
+그 user_id 는 views.py에서         def following(request, user_id):    이렇게 user_id로 받아와서 user = get_object_or_404(User, pk=user_id)
+이렇게 담아주면 됨
+
+내가 변경 안 했던거네 ㅋㅋㅋ
+
+복잡한가? 저거 보고 왜 그런지 이해 안 되면 담주 수요일에 대면 할 것 같은데 그 때 알려줄게
+걍 음.. 잠만
+넵
+ㅠㅠㅠ 오늘도 고생 많으셨습니다....ㅠㅠㅠ한번 고쳐보겠습니다
+아 views.py도 변경 안 된다...
+아 괜찮아여.. 해보면 되죠
+ㅇㅋㅇㅋ
+화이팅ㅇㅋㅇㅋ
+넵 이따 세션때 뵐게여!  
+ {% endcomment %}
+
     <div class="row">        
-    {% for following in followings %}        
+    {% for following in following %}        
         <div class="col-md-4 col-12">            
             <div class="card" style="width: 18rem; margin-top: 20px;">          
                 <div class="card-body">              
-                    {{ follwings_user.username }}              
+                    {{ following.user.username }}              
                 </div>            
             </div>        
         </div>        
-        {% endfor %}    
+    {% endfor %}    
     </div>
-    {% else %}
-    <h3>로그인 후 이용이 가능합니다.</h3>
-    <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
-    <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a> 
-    {% endif %}
+
+{% else %}
+<h3>로그인 후 이용이 가능합니다.</h3>
+<a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+<a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a> 
+{% endif %}
     
 </div> 
 {% endblock %}
