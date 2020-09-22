@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Comment
+from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import pdb
@@ -9,13 +10,13 @@ from users.models import *
 @login_required
 def create(request):
     if request.method == "POST":
-        title = request.POST.get("title")
-        content = request.POST.get("content")
-        image = request.FILES.get("image")
-        user = request.user
-        post = Post.objects.create(title=title, content=content, image=image, user=user)
-        return redirect('home')
-    return render(request, 'posts/create.html')
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(user = request.user)
+            return redirect('home')
+    else:
+        form = PostForm()
+        return render(request, 'posts/create.html', {'form': form})
 
 
 @login_required
